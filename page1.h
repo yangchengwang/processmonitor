@@ -169,3 +169,4 @@ void page1Generate(void)
 
     page1UpdateInfo();
 }
+

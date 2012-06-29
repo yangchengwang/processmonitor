@@ -24,3 +24,4 @@ void creatWindow(void)
         gtk_notebook_append_page(GTK_NOTEBOOK(notebook), GTK_WIDGET(page_table[i]), GTK_WIDGET(page_title[i]));
     }
 }
+
