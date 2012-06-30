@@ -12,6 +12,7 @@ char *markup1;
 #include <dirent.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <math.h>
 
 /*==================================================*/
 
@@ -25,7 +26,7 @@ const int gridQuanH=100;
 GtkWindow *window;
 GtkNotebook *notebook;
 GtkLabel *page_title[page_quantity];
-char* page_title_char[page_quantity]={"System Brief","Resource Usage","Process Info","Module Info",};
+char* page_title_char[page_quantity]={"首页","CPU","进程","Module",};
 GtkWidget *page_table[page_quantity];
 
 #include "creatwindow.h"
@@ -48,17 +49,18 @@ GtkHSeparator* hSep1;
 /*==================================================*/
 
 GtkFrame *page2Frame[page_quantity];
-char* page2FrameName[page_quantity]={"System Overall Load","CPU Usage","Memory Usage","Network Activity",};
+char* page2FrameName[page_quantity]={"CPU Usage","Memory Usage"};
 
-int* cpuStruct1;
-int* cpuStruct2;
-int countFlag=0;
 
-float overallLoad[3];
-GtkLabel* avgLoadLabel;
-char overallLoadLabelBuffer[512];
+double cpu_rate;
+double cput_old=0.0;
+double cput_new;
+double cput;
+double idle_old=0.0;
+double idle_new;
+double idle_change;
 
-float cpuUsage;
+double cpuUsage;
 char cpuUsageText[512];
 GtkProgress* cpuUsageProgressBar;
 
@@ -73,12 +75,6 @@ GtkProgress* swapProgressBar;
 char memText[512];
 char swapText[512];
 
-int netReceive;
-int netSend;
-float receiveSpeed;
-float sendSpeed;
-GtkLabel* net1;
-char bufNet[512];
 
 #include "page2.h"
 
@@ -152,38 +148,4 @@ char moduleOverallDataBuffer[512];
 
 /*==================================================*/
 
-int fsNum=0;
-
-#define MAX_FILESYSTEM_NUM 100
-
-struct FS
-{
-    char name[512];
-    int ab;
-    int ub;
-    int fb;
-    char usage[512];
-    char point[512];
-} allFs[MAX_FILESYSTEM_NUM];
-
-GtkScrolledWindow *scrolled_window_p5;
-GtkListStore *list_p5;
-GtkTreeIter iter_p5;
-GtkTreeView *view_p5;
-GtkTreeViewColumn *name_column_p5,*ab_column_p5,*ub_column_p5,*fb_column_p5,*usage_column_p5,*point_column_p5;
-GtkCellRenderer *text_renderer_p5_1;
-GtkCellRenderer *text_renderer_p5_2;
-GtkCellRenderer *text_renderer_p5_3;
-GtkCellRenderer *text_renderer_p5_4;
-GtkCellRenderer *text_renderer_p5_5;
-GtkCellRenderer *text_renderer_p5_6;
-
-GtkFrame* page5Frame;
-GtkLabel* page5Label;
-
-char fsOverallDataBuffer[512];
-
-#include "page5.h"
-
-/*==================================================*/
 
