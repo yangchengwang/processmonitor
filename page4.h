@@ -2,12 +2,13 @@ void getModuleInfo()
 {
     FILE* fp1;
     char buf3[512];
-    int i,j;
+    char nmem[100];
+    int i;
 
     moduleNum=0;
 
     fp1=fopen("/proc/modules","r");
-    while(fgets(buf3,512,fp1))
+    while(fgets(buf3,512,fp1)!=NULL)
     {
         moduleNum++;
     }
@@ -23,19 +24,8 @@ void getModuleInfo()
     for (i=0;i<moduleNum;++i)
     {
         fgets(buf3,512,fp1);
-
-        j=0;
-        while(buf3[j]!=' ')
-        {
-            (allModule[i].name)[j]=buf3[j];
-            j++;
-        }
-        (allModule[i].name)[j]='\0';
-
-        allModule[i].mem=(int)(getSpecNumberFromBuf(buf3,1));
-
-        j=(int)(getSpecNumberFromBuf(buf3,2));
-        sprintf(allModule[i].times,"%d",j);
+	sscanf(buf3,"%s%s%s%*s",allModule[i].name,nmem,allModule[i].times);
+	allModule[i].mem=atoi(nmem);
     }
     fclose(fp1);
 }
